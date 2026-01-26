@@ -1,0 +1,165 @@
+#account__container{
+  padding: 20px;
+  text-align: left;
+
+  width: calc(100vw - 340px);
+}
+
+
+.account__search{
+
+  &--container{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &--buttons{
+    display: flex;
+    gap: 10px;
+    margin: 0 10px;
+  }
+
+  &--submit{
+    background-color: #28a745;
+    padding: 10px 20px;
+    width: 100px;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  &--new{
+    background-color: #edbe3d;
+    padding: 10px 20px;
+    width: 100px;
+    border: none;
+    cursor: pointer;
+  }
+
+  &--input{
+    border: 1px solid #f3f3f3;
+    padding: 10px;
+    width: 300px;
+  }
+}
+
+.account__form__container{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(201, 201, 201, 0.599);
+    backdrop-filter: blur(5px);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account__form{
+
+  width: 50%;
+  margin: 10px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: white;
+  transition: 0.3s;
+
+
+  form{
+    width: 100%;
+  }
+
+  &--group{
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+
+    select{
+      padding: 10px;
+      border: 1px solid #f3f3f3;
+    }
+  }
+
+  &--submit{
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  &--update{
+    background-color: #288ca7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover{
+      background-color: #007bff;
+    }
+  }
+
+  &--cancel{
+    background-color: #d5d5d5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    &:hover{
+      background-color: #edbe3d;
+    }
+  }
+
+  &--buttons{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  small{
+    color: rgb(255, 102, 0);
+  }
+}
+
+
+.account__table{
+  margin-top: 40px;
+  width: 100%;
+
+  table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td{
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  &--action--edit{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  &--action--delete{
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+}

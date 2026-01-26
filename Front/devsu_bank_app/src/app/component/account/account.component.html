@@ -1,0 +1,140 @@
+<div id="account__container">
+  <h1>Cuentas</h1>
+  <div class="account__search--container">
+    <input
+      class="account__search--input"
+      type="text"
+      placeholder="Buscar "
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+    />
+    <div class="account__search--buttons">
+      <button class="account__search--submit" (click)="onSearch()">
+        Buscar
+      </button>
+      <button class="account__search--new" (click)="showDialog = !showDialog">
+        Nuevo
+      </button>
+    </div>
+  </div>
+  <div class="account__table">
+    <table>
+      <thead>
+        <tr>
+          <th>No. Cuenta</th>
+          <th>Tipo</th>
+          <th>Saldo inicial</th>
+          <th>Cliente</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let account of accounts">
+          <td>{{ account.accountNumber }}</td>
+          <td>{{ account.type }}</td>
+          <td>{{ account.initialBalance }}</td>
+          <td>{{ account.clientName }}</td>
+          <td>
+            <button
+              class="account__table--action--edit"
+              (click)="onEditing(account)"
+            >
+              Editar
+            </button>
+            <button
+              class="account__table--action--delete"
+              (click)="onDelete(account.id!)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="account__form__container" *ngIf="showDialog">
+  <div class="account__form">
+    <h2 *ngIf="showDialog && !isEditing">Nueva cuenta</h2>
+    <h2 *ngIf="isEditing">Editar cuenta</h2>
+    <form [formGroup]="accountForm">
+      <div class="account__form--group">
+        <label for="accountNumber">Número de cuenta:</label>
+        <input type="number" id="accountNumber" name="accountNumber" formControlName="accountNumber" />
+        <small
+          *ngIf="
+            accountForm.get('accountNumber')?.invalid && accountForm.get('accountNumber')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="account__form--group">
+        <label for="type">Tipo de cuenta:</label>
+        <select name="type" id="type" formControlName="type">
+          <option value="" disabled>Seleccione un tipo</option>
+          <option value="Ahorros" selected>Ahorros</option>
+          <option value="Corriente">Corriente</option>
+        </select>
+
+        <small
+          *ngIf="
+            accountForm.get('type')?.invalid &&
+            accountForm.get('type')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="account__form--group">
+        <label for="initialBalance">Saldo inicial:</label>
+        <input type="text" id="initialBalance" name="initialBalance" formControlName="initialBalance" />
+                <small
+          *ngIf="
+            accountForm.get('initialBalance')?.invalid &&
+            accountForm.get('initialBalance')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+
+      <div class="account__form--group">
+        <label for="clientId">Cliente:</label>
+        <select id="clientId" name="clientId" formControlName="clientId">
+          <option value="" disabled selected>Seleccione un cliente</option>
+          <option *ngFor="let client of clients" [value]="client.clientId">
+            {{ client.name }}
+          </option>
+        </select>
+                <small
+          *ngIf="
+            accountForm.get('clientId')?.invalid &&
+            accountForm.get('clientId')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="account__form--buttons">
+        <button
+          class="account__form--submit"
+          *ngIf="!isEditing"
+          (click)="save()"
+        >
+          Guardar
+        </button>
+        <button
+          class="account__form--update"
+          *ngIf="isEditing"
+          (click)="update()"
+        >
+          Actualizar
+        </button>
+        <button class="account__form--cancel" (click)="onCloseDialog()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

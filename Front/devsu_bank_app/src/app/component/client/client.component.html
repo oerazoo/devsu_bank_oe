@@ -1,0 +1,124 @@
+<div id="client__container">
+  <h1>Clientes</h1>
+  <div class="client__search--container">
+    <input
+      class="client__search--input"
+      type="text"
+      placeholder="Buscar cliente por nombre"
+      [(ngModel)]="searchTerm"
+    />
+    <div  class="client__search--buttons">
+      <button class="client__search--submit" (click)="onSearch()">Buscar</button>
+      <button class="client__search--new" (click)="showDialog = !showDialog">Nuevo</button>
+    </div>
+  </div>
+  <div class="client__table">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Telefono</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td>{{ client.name }}</td>
+          <td>{{ client.address }}</td>
+          <td>{{ client.phoneNumber }}</td>
+          <td>
+            <button class="client__table--action--edit" (click)="onEditing(client)">Editar</button>
+            <button
+              class="client__table--action--delete"
+              (click)="onDeleteClient(client.id!)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="client__form__container" *ngIf="showDialog" >
+  <div class="client__form">
+    <h2 *ngIf="showDialog && !isEditing">Nuevo Cliente</h2>
+    <h2 *ngIf="isEditing">Editar Cliente</h2>
+    <form [formGroup]="clientForm">
+      <div class="client__form--group">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" formControlName="name" />
+        <small
+          *ngIf="
+            clientForm.get('name')?.invalid && clientForm.get('name')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="client__form--group">
+        <label for="identification">Identificación:</label>
+        <input
+          type="text"
+          id="identification"
+          name="identification"
+          formControlName="identification"
+        />
+        <small
+          *ngIf="
+            clientForm.get('identification')?.invalid &&
+            clientForm.get('identification')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="client__form--group">
+        <label for="age">Edad:</label>
+        <input type="text" id="age" name="age" formControlName="age" />
+      </div>
+      <div class="client__form--group">
+        <label for="address">Dirección:</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          formControlName="address"
+        />
+        <small
+          *ngIf="
+            clientForm.get('address')?.invalid &&
+            clientForm.get('address')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="client__form--group">
+        <label for="phoneNumber">Teléfono:</label>
+        <input
+          id="phoneNumber"
+          name="phoneNumber"
+          formControlName="phoneNumber"
+        />
+      </div>
+      <div class="client__form--group">
+        <label for="password">Contraseña:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          formControlName="password"
+        />
+      </div>
+      <div class="client__form--buttons">
+
+        <button class="client__form--submit" *ngIf="!isEditing" (click)="saveClient()">Guardar</button>
+        <button class="client__form--update" *ngIf="isEditing" (click)="updateClient()">Actualizar</button>
+        <button class="client__form--cancel" (click)="onCloseDialog()">Cancelar</button>
+      </div>
+
+    </form>
+  </div>
+</div>

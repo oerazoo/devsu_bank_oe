@@ -1,0 +1,141 @@
+<div id="movement__container">
+  <h1>Movimientos</h1>
+  <div class="movement__search--container">
+    <input
+      class="movement__search--input"
+      type="text"
+      placeholder="Buscar "
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+    />
+    <div class="movement__search--buttons">
+      <button class="movement__search--submit" (click)="onSearch()">
+        Buscar
+      </button>
+      <button class="movement__search--new" (click)="showDialog = !showDialog">
+        Nuevo
+      </button>
+    </div>
+  </div>
+  <div class="movement__table">
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Saldo inicial</th>
+          <th>Valor</th>
+          <th>Número de cuenta</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movement of movements">
+          <td>{{ movement.date }}</td>
+          <td>{{ movement.kind }}</td>
+          <td>{{ movement.balance }}</td>
+          <td>{{ movement.value }}</td>
+          <td>{{ movement.accountNumber }}</td>
+          <td>
+            <button
+              class="movement__table--action--edit"
+              (click)="onEditing(movement)"
+            >
+              Editar
+            </button>
+            <button
+              class="movement__table--action--delete"
+              (click)="onDelete(movement.id!)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="movement__form__container" *ngIf="showDialog">
+  <div class="movement__form">
+    <h2 *ngIf="showDialog && !isEditing">Nuevo movimiento</h2>
+    <h2 *ngIf="isEditing">Editar movimiento</h2>
+    <form [formGroup]="movementForm">
+      <div class="movement__form--group">
+        <label for="accountNumber">Número de cuenta:</label>
+        <input type="number" id="accountNumber" name="accountNumber" formControlName="accountNumber" />
+        <button class="movement__form--submit" (click)="searchAccount()">Buscar</button>
+        <small
+          *ngIf="
+            movementForm.get('accountNumber')?.invalid && movementForm.get('accountNumber')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <div class="movement__form--group">
+        <label for="type">Tipo de movimiento:</label>
+        <select name="kind" id="kind" formControlName="kind">
+          <option value="" disabled>Seleccione un tipo</option>
+          <option value="DEPOSITO">DEPOSITO</option>
+          <option value="RETIRO">RETIRO</option>
+        </select>
+
+        <small
+          *ngIf="
+            movementForm.get('kind')?.invalid &&
+            movementForm.get('kind')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <!-- <div class="movement__form--group">
+        <label for="initialBalance">Saldo inicial:</label>
+        <input type="number" id="initialBalance" name="initialBalance" formControlName="initialBalance" />
+      </div> -->
+      <div class="movement__form--group">
+        <label for="value">Valor:</label>
+        <input type="number" id="value" name="value" formControlName="value"/>
+                <small
+          *ngIf="
+            movementForm.get('value')?.invalid &&
+            movementForm.get('value')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div>
+      <!-- <div class="movement__form--group">
+        <label for="balance">Saldo:</label>
+        <input type="text" id="balance" name="balance" formControlName="balance" [disabled]="true" />
+                <small
+          *ngIf="
+            movementForm.get('balance')?.invalid &&
+            movementForm.get('balance')?.touched
+          "
+        >
+          Campo obligatorio
+        </small>
+      </div> -->
+      <div class="movement__form--buttons">
+        <button
+          class="movement__form--submit"
+          *ngIf="!isEditing"
+          (click)="save()"
+        >
+          Guardar
+        </button>
+        <button
+          class="movement__form--update"
+          *ngIf="isEditing"
+          (click)="update()"
+        >
+          Actualizar
+        </button>
+        <button class="movement__form--cancel" (click)="onCloseDialog()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
